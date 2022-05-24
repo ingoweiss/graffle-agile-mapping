@@ -1,0 +1,62 @@
+/*{
+    "author": "Ingo Weiss",
+    "targets": ["omnigraffle"],
+    "type": "action",
+    "identifier": "com.ingoweiss.agile_map",
+    "version": "0.1",
+    "description": "A plug-in that creates and updates a map of agile stories",
+    "label": "Agile Map",
+    "mediumLabel": "Agile Map",
+    "longLabel": "Agile Map",
+    "paletteLabel": "Agile Map",
+}*/
+(() => {
+    var action = new PlugIn.Action(function(selection) {
+
+        let picker = new FilePicker()
+        picker.folders = false
+        picker.multiple = false
+        picker.types = [FileType.json]
+
+        picker.show().then(function(urls) {
+            let url = urls[0]
+            url.fetch(function(data) {
+                let result = JSON.parse(data.toString())
+                let cards = result["cards"]
+
+                let templates_canvas = canvases.find(c => c.name == 'Templates')
+                let map_canvas = canvases.find(c => c.name == 'Map')
+                let card_template = templates_canvas.graphicWithName('card')
+                let card_width = card_template.geometry.width
+
+                cards.forEach((card_data, index) => {
+                    let x = index * card_width + 50
+                    let card = card_template.duplicateTo(new Point(x, 1), map_canvas)
+
+                    let id_field = card.graphics.find(g => g.name == 'id_field')
+                    let name_field = card.graphics.find(g => g.name == 'name_field')
+
+                    id_field.text = card_data["id"]
+                    name_field.text = card_data["name"]
+
+                    console.log(card_data, index);
+                });
+            },
+            function() {
+                throw Error("Failed loading cards")
+            })
+            
+        })
+
+        console.log("Invoked with selection", selection);
+    });
+
+    // If needed, uncomment, and add a function that returns true if the current selection is appropriate for the action.
+    /*
+    action.validate = function(selection){
+
+    };
+    */
+        
+    return action;
+})();
