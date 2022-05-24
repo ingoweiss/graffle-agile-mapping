@@ -20,47 +20,70 @@
 
         picker.show().then(function(urls) {
             let url = urls[0]
-            url.fetch(function(data) {
-                let result = JSON.parse(data.toString())
-                let cards = result["cards"]
+            url.fetch(function(data_url) {
 
+                // choose and parse data file:
+                let data = JSON.parse(data_url.toString())
+                let stories_raw = data["cards"]
+                let stories = {}
+                stories_raw.forEach(story => {
+                    stories[story["id"]] = story
+                })
+
+                // find map elements:
                 let templates_canvas = canvases.find(c => c.name == 'Templates')
                 let map_canvas = canvases.find(c => c.name == 'Map')
                 let card_template = templates_canvas.graphicWithName('card')
+                let cards = map_canvas.allGraphicsWithUserDataForKey("card", "type")
+
+                // determine delta:
+                let card_ids = new Set(cards.map(x => x.name))
+                let story_ids = new Set(Object.keys(stories))
+                let added_ids = [...story_ids].filter(id => !card_ids.has(id))
+                let deleted_ids = [...card_ids].filter(id => !story_ids.has(id))
+                let updated_ids = [...story_ids].filter(id => card_ids.has(id))
+
+                // create cards for added stories:
                 let card_width = card_template.geometry.width
+                added_ids.forEach((id, index) => {
+                    let x = index * (card_width + 50)
+                    let card = card_template.duplicateTo(new Point(x, 1), map_canvas)
+                    card.name = id
+                    let id_field = card.graphics.find(g => g.name == 'id_field')
+                    id_field.text = id
+                    let name_field = card.graphics.find(g => g.name == 'name_field')
+                    name_field.text = stories[id]["name"]
+                })
 
-                cards.forEach((card_data, index) => {
-                    let story_id = card_data["id"]
-                    let story_name = card_data["name"]
+                // update existing cards:
+                updated_ids.forEach((id, index) => {
+                    let card = map_canvas.graphicWithName(id)
+                    let story = stories[id]
+                    let id_field = card.graphics.find(g => g.name == 'id_field')
+                    id_field.text = id
+                    let name_field = card.graphics.find(g => g.name == 'name_field')
+                    name_field.text = story["name"]
+                })
 
-                    let card = map_canvas.graphicWithName(story_id)
-                    if (! (card instanceof Group)) {
-                        let x = index * (card_width + 50)
-                        card = card_template.duplicateTo(new Point(x, 1), map_canvas)
-                        card.name = story_id
-                    }
-
-                    id_field = card.graphics.find(g => g.name == 'id_field')
-                    id_field.text = story_id
-                    name_field = card.graphics.find(g => g.name == 'name_field')
-                    name_field.text = story_name
-                });
+                // flag cards for removed stories:
+                deleted_ids.forEach((id, index) => {
+                    let card = map_canvas.graphicWithName(id)
+                    line_one = map_canvas.addLine(new Point(card.geometry.origin.x, card.geometry.origin.y), new Point(card.geometry.origin.x + card.geometry.width, card.geometry.origin.y + card.geometry.height))
+                    line_one.strokeThickness = 3
+                    line_one.strokeColor = Color.red
+                    line_two = map_canvas.addLine(new Point(card.geometry.origin.x, card.geometry.origin.y + card.geometry.height), new Point(card.geometry.origin.x + card.geometry.width, card.geometry.origin.y))
+                    line_two.strokeThickness = 3
+                    line_two.strokeColor = Color.red
+                    new Group([line_one, line_two])
+                })
             },
             function() {
-                throw Error("Failed loading cards")
+                throw Error("Failed loading stories")
             })
             
         })
 
-        console.log("Invoked with selection", selection);
     });
 
-    // If needed, uncomment, and add a function that returns true if the current selection is appropriate for the action.
-    /*
-    action.validate = function(selection){
-
-    };
-    */
-        
     return action;
 })();
