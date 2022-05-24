@@ -30,16 +30,20 @@
                 let card_width = card_template.geometry.width
 
                 cards.forEach((card_data, index) => {
-                    let x = index * card_width + 50
-                    let card = card_template.duplicateTo(new Point(x, 1), map_canvas)
+                    let story_id = card_data["id"]
+                    let story_name = card_data["name"]
 
-                    let id_field = card.graphics.find(g => g.name == 'id_field')
-                    let name_field = card.graphics.find(g => g.name == 'name_field')
+                    let card = map_canvas.graphicWithName(story_id)
+                    if (! (card instanceof Group)) {
+                        let x = index * (card_width + 50)
+                        card = card_template.duplicateTo(new Point(x, 1), map_canvas)
+                        card.name = story_id
+                    }
 
-                    id_field.text = card_data["id"]
-                    name_field.text = card_data["name"]
-
-                    console.log(card_data, index);
+                    id_field = card.graphics.find(g => g.name == 'id_field')
+                    id_field.text = story_id
+                    name_field = card.graphics.find(g => g.name == 'name_field')
+                    name_field.text = story_name
                 });
             },
             function() {
