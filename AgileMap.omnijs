@@ -22,13 +22,23 @@
             let url = urls[0]
             url.fetch(function(data_url) {
 
-                // choose and parse data file:
+                // parse data file:
                 let data = JSON.parse(data_url.toString())
-                let stories_raw = data["cards"]
+                if (Object.keys(data).length == 1){
+                    stories_raw = data[Object.keys(data)[0]]
+                } else {
+                    stories_raw = data
+                }
+
                 let stories = {}
-                stories_raw.forEach(story => {
-                    stories[story["id"]] = story
-                })
+                if (stories_raw instanceof Array){
+                    stories_raw.forEach(story => {
+                        stories[story["id"]] = story
+                    })
+                } else {
+                    stories = stories_raw
+                }
+                console.log(Object.keys(stories))
 
                 // find map elements:
                 let templates_canvas = canvases.find(c => c.name == 'Templates')
@@ -69,10 +79,10 @@
                 deleted_ids.forEach((id, index) => {
                     let card = map_canvas.graphicWithName(id)
                     line_one = map_canvas.addLine(new Point(card.geometry.origin.x, card.geometry.origin.y), new Point(card.geometry.origin.x + card.geometry.width, card.geometry.origin.y + card.geometry.height))
-                    line_one.strokeThickness = 3
+                    line_one.strokeThickness = 6
                     line_one.strokeColor = Color.red
                     line_two = map_canvas.addLine(new Point(card.geometry.origin.x, card.geometry.origin.y + card.geometry.height), new Point(card.geometry.origin.x + card.geometry.width, card.geometry.origin.y))
-                    line_two.strokeThickness = 3
+                    line_two.strokeThickness = 6
                     line_two.strokeColor = Color.red
                     new Group([line_one, line_two])
                 })
