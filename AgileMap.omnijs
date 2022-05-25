@@ -38,7 +38,6 @@
                 } else {
                     stories = stories_raw
                 }
-                console.log(Object.keys(stories))
 
                 // find map elements:
                 let templates_canvas = canvases.find(c => c.name == 'Templates')
