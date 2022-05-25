@@ -4,7 +4,7 @@
     "type": "action",
     "identifier": "com.ingoweiss.agile_map",
     "version": "0.1",
-    "description": "A plug-in that creates and updates a map of agile stories",
+    "description": "A Graffle plugin for creating freeform maps of user stories the data elements of which can be kept in sync with an external data source",
     "label": "Agile Map",
     "mediumLabel": "Agile Map",
     "longLabel": "Agile Map",
