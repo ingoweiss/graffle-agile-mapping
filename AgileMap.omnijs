@@ -5,10 +5,10 @@
     "identifier": "com.ingoweiss.agile_map",
     "version": "0.1",
     "description": "A Graffle plugin for creating freeform maps of user stories the data elements of which can be kept in sync with an external data source",
-    "label": "Agile Map",
-    "mediumLabel": "Agile Map",
-    "longLabel": "Agile Map",
-    "paletteLabel": "Agile Map",
+    "label": "Sync Agile Map",
+    "mediumLabel": "Sync Agile Map",
+    "longLabel": "Sync Agile Map",
+    "paletteLabel": "Sync Agile Map",
 }*/
 (() => {
     var action = new PlugIn.Action(function(selection) {
