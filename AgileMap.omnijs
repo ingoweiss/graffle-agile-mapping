@@ -60,8 +60,10 @@
                     card.name = id
                     let id_field = card.graphics.find(g => g.name == 'id_field')
                     id_field.text = id
+                    card.setUserData('id', id)
                     let name_field = card.graphics.find(g => g.name == 'name_field')
                     name_field.text = stories[id]["name"]
+                    card.setUserData('name', stories[id]["name"])
 
                     // mark cards as new
                     let marker = map_canvas.addShape(
@@ -80,8 +82,10 @@
                     let story = stories[id]
                     let id_field = card.graphics.find(g => g.name == 'id_field')
                     id_field.text = id
+                    card.setUserData('id', id)
                     let name_field = card.graphics.find(g => g.name == 'name_field')
                     name_field.text = story["name"]
+                    card.setUserData('name', story["name"])
                 })
 
                 // flag cards for removed stories:
