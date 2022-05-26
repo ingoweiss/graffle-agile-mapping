@@ -68,12 +68,15 @@
                     // mark added cards as new
                     let marker = map_canvas.addShape(
                         'Circle',
-                        new Rect(x + card_width - 100, -100, 200, 200)
+                        new Rect(x + card_width - 140, -60, 200, 200)
                     )
                     marker.fillType = FillType.Solid
                     marker.fillColor = Color.green
                     marker.strokeType = null
                     marker.shadowColor = null
+                    marker.text = 'NEW'
+                    marker.fontName = "HelveticaNeue"
+                    marker.textSize = 30
                 })
 
                 // update existing cards:
