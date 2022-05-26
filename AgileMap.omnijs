@@ -16,6 +16,7 @@
         let picker = new FilePicker()
         picker.folders = false
         picker.multiple = false
+        picker.message = 'Select the JSON file containing your story data'
         picker.types = [FileType.json]
 
         picker.show().then(function(urls) {
