@@ -1,6 +1,6 @@
 # Graffle Agile Mapping
 
-A Graffle plugin for creating freeform maps of user stories the data elements of which can be kept in sync with an external data source
+An [Omni Graffle](https://www.omnigroup.com/omnigraffle) plugin for creating freeform maps of user stories the data elements of which can be kept in sync with an external data source.
 
 ## Installation
 
@@ -26,7 +26,7 @@ As long as the story template has these characteristics, you can change it any w
 
 ## JSON Template
 
-Refer to the following templates for supported story data file formats:
+The plugin requires a JSON file containing the story data. Refer to the following templates for supported file formats:
 
 1. stories_array.json.example (Array of story objects)
 2. stories_object.json.example (Object with story ids for keys and story objects for values)
