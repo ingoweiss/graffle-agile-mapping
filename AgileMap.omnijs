@@ -65,7 +65,7 @@
                     name_field.text = stories[id]["name"]
                     card.setUserData('name', stories[id]["name"])
 
-                    // mark cards as new
+                    // mark added cards as new
                     let marker = map_canvas.addShape(
                         'Circle',
                         new Rect(x + card_width - 100, -100, 200, 200)
@@ -88,7 +88,7 @@
                     card.setUserData('name', story["name"])
                 })
 
-                // flag cards for removed stories:
+                // mark cards for removed stories:
                 deleted_ids.forEach((id, index) => {
                     let card = map_canvas.graphicWithName(id)
                     line_one = map_canvas.addLine(new Point(card.geometry.origin.x, card.geometry.origin.y), new Point(card.geometry.origin.x + card.geometry.width, card.geometry.origin.y + card.geometry.height))
