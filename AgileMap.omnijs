@@ -80,9 +80,6 @@
                 updated_ids.forEach((id, index) => {
                     let card = map_canvas.graphicWithName(id)
                     let story = stories[id]
-                    let id_field = card.graphics.find(g => g.name == 'id_field')
-                    id_field.text = id
-                    card.setUserData('id', id)
                     let name_field = card.graphics.find(g => g.name == 'name_field')
                     name_field.text = story["name"]
                     card.setUserData('name', story["name"])
