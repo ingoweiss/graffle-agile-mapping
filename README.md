@@ -26,5 +26,14 @@ As long as the story template has these characteristics, you can change it any w
 
 ## JSON Template
 
-This plugin supports
+Refer to the following templates for supported story data file formats:
+
+1. stories_array.json.example (Array of story objects)
+2. stories_object.json.example (Object with story ids for keys and story objects for values)
+
+## Usage
+
+1. Create you Graffle file using "Template.graffle" as a template (name and location doesn't matter)
+2. Create the story data JSON file using one of the available JSON templates (name and location doesn't matter)
+3. Choose "Automation" > "Sync Agile Map" action
 
