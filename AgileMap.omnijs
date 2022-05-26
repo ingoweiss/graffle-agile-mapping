@@ -105,8 +105,8 @@
                 })
 
                 // Summary
-                let summary = `Added: ${ added_ids.length }\nUpdated: ${ updated_count }\nDeleted: ${ deleted_ids.length }` 
-                new Alert('Sync Summary', summary).show()
+                let summary = `Added: ${ added_ids.length }\nUpdated: ${ updated_count }\nMarked as deleted: ${ deleted_ids.length }`
+                new Alert('Sync Summary:', summary).show()
             },
             function() {
                 throw Error("Failed loading stories")
